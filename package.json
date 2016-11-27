@@ -1,0 +1,17 @@
+{
+  "name": "budgety",
+  "version": "0.0.1",
+  "description": "Small app for finances control written in JS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guilherme",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-notify": "^2.2.0",
+    "static-server": "^2.0.3"
+  }
+}
