@@ -5,3 +5,4 @@ For better workflow and learning purposes, I went ahead and added Gulp and Brows
 
 The original code can be found here: https://github.com/guimochila/udemy-javascript-complete-course/tree/master/6-Budgety
  
+ PS: All html and css was created by the author of the course.

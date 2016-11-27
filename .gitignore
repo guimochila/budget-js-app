@@ -53,8 +53,6 @@ logs
 npm-debug.log
 node_modules/
 
-
-# Sublime specific #
-####################
-sftp-config*
-*.sublime-*
+# Build location #
+##################
+build/

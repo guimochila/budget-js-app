@@ -9,9 +9,16 @@
   "author": "Guilherme",
   "license": "ISC",
   "devDependencies": {
+    "browserify": "^13.1.1",
     "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
     "gulp-livereload": "^3.8.1",
-    "gulp-notify": "^2.2.0",
-    "static-server": "^2.0.3"
+    "gulp-plumber": "^1.1.0",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "static-server": "^2.0.3",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
