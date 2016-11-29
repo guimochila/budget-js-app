@@ -6,6 +6,7 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     uglify = require('gulp-uglify'),
     sourcemaps = require('gulp-sourcemaps'),
+    eslint = require('gulp-eslint'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     browserify = require('browserify');
@@ -44,6 +45,13 @@ gulp.task('images', function () {
         .pipe(livereload());
 });
 
+// ESlint task
+gulp.task('lint', function() {  
+  return gulp.src('src/js/**/*.js')
+    .pipe(eslint())
+    .pipe(eslint.format());
+});
+
 // Build scripts using Browserify
 gulp.task('build', function () {
     return browserify({
@@ -72,4 +80,4 @@ gulp.task('watch', ['default'], function () {
     gulp.watch('src/js/**/*.js', ['build']);
 });
 
-gulp.task('default', ['html', 'images', 'styles', 'build'], function () { });
+gulp.task('default', ['html', 'images', 'styles', 'lint', 'build'], function () { });
