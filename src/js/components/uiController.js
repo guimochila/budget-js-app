@@ -83,7 +83,7 @@ var UIController = (function () {
             fields = document.querySelectorAll('.add__description' + ', ' + '.add__value');
 
             fieldsArr = Array.prototype.slice.call(fields);
-            fieldsArr.forEach(function (element, index, arr) {
+            fieldsArr.forEach(function (element) {
                 element.value = '';
             }, this);
 

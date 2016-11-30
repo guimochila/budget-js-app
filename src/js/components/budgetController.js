@@ -32,10 +32,6 @@ var budgetController = (function () {
         this.value = value;
     };
 
-    var allExpensives = [];
-    var allIncomes = [];
-    var totalExpress = 0;
-
     var _calculateTotal = function (type) {
         var sum = 0;
 
