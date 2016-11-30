@@ -1,26 +1,32 @@
 // Budget Controller Module
 var budgetController = (function () {
 
-    var Expense = function (id, description, value) {
+    // Private Functions
+
+    // Expense Constructor
+    var _Expense = function (id, description, value) {
         this.id = id;
         this.description = description;
         this.value = value;
         this.percentage = -1;
     };
 
-    Expense.prototype.calcPercentage = function (totalIncome) {
-        if (totalIncome > 0) {
-            this.percentage = Math.round((this.value / totalIncome) * 100);
+    //Calculate percentage method
+    _Expense.prototype.calcPercentage = function (total_Income) {
+        if (total_Income > 0) {
+            this.percentage = Math.round((this.value / total_Income) * 100);
         } else {
             this.percentage = -1;
         }
     };
-    test = 2;
-    Expense.prototype.getPercentage = function () {
+
+    // Get percentage method
+    _Expense.prototype.getPercentage = function () {
         return this.percentage;
     };
 
-    var Income = function (id, description, value) {
+    // _Income contructor
+    var _Income = function (id, description, value) {
         this.id = id;
         this.description = description;
         this.value = value;
@@ -30,16 +36,16 @@ var budgetController = (function () {
     var allIncomes = [];
     var totalExpress = 0;
 
-    var calculateTotal = function (type) {
+    var _calculateTotal = function (type) {
         var sum = 0;
 
-        data.allItems[type].forEach(function (cur) {
+        _data.allItems[type].forEach(function (cur) {
             sum += cur.value;
         });
-        data.total[type] = sum;
+        _data.total[type] = sum;
     };
 
-    var data = {
+    var _data = {
         allItems: {
             exp: [],
             inc: []
@@ -52,84 +58,91 @@ var budgetController = (function () {
         percentage: -1
     };
 
-    return {
-        addItem: function (type, des, val) {
-            var newItem, ID;
+    // Public Functions
+    function addItem(type, des, val) {
+        var newItem, ID;
 
-            //Create new ID
-            if (data.allItems[type].length > 0) {
-                ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
-            } else {
-                ID = 0;
-            }
-
-            //Create newItem based on exp or inc type
-            if (type === 'exp') {
-                newItem = new Expense(ID, des, val);
-            } else if (type === 'inc') {
-                newItem = new Income(ID, des, val);
-            }
-
-            // Push in into the data sctructure
-            data.allItems[type].push(newItem);
-
-            // Return the new element
-            return newItem;
-        },
-
-        deleteItem: function (type, id) {
-            var ids, index;
-
-            ids = data.allItems[type].map(function (current) {
-                return current.id;
-            });
-
-            index = ids.indexOf(id);
-
-            if (index !== -1) {
-                data.allItems[type].splice(index, 1);
-            }
-
-        },
-
-        calculateBudget: function () {
-            // Calculate total income and expenses
-            calculateTotal('inc');
-            calculateTotal('exp');
-
-            // Calculate the budget
-            data.budget = data.total.inc - data.total.exp;
-
-            // Calculate the percentage
-            if (data.total.inc > 0) {
-                data.percentage = Math.round((data.total.exp / data.total.inc) * 100);
-            } else {
-                data.percentage = -1;
-            }
-        },
-
-        calculatePercentages: function () {
-            data.allItems.exp.forEach(function (cur) {
-                cur.calcPercentage(data.total.inc);
-            });
-        },
-
-        getPercentage: function () {
-            var allPerc = data.allItems.exp.map(function (cur) {
-                return cur.getPercentage();
-            });
-            return allPerc;
-        },
-
-        getBudget: function () {
-            return {
-                budget: data.budget,
-                totalInc: data.total.inc,
-                totalExp: data.total.exp,
-                percentage: data.percentage
-            };
+        //Create new ID
+        if (_data.allItems[type].length > 0) {
+            ID = _data.allItems[type][_data.allItems[type].length - 1].id + 1;
+        } else {
+            ID = 0;
         }
 
+        //Create newItem based on exp or inc type
+        if (type === 'exp') {
+            newItem = new _Expense(ID, des, val);
+        } else if (type === 'inc') {
+            newItem = new _Income(ID, des, val);
+        }
+
+        // Push in into the _data sctructure
+        _data.allItems[type].push(newItem);
+
+        // Return the new element
+        return newItem;
+    };
+
+    function deleteItem(type, id) {
+        var ids, index;
+
+        ids = _data.allItems[type].map(function (current) {
+            return current.id;
+        });
+
+        index = ids.indexOf(id);
+
+        if (index !== -1) {
+            _data.allItems[type].splice(index, 1);
+        }
+
+    };
+
+    function calculateBudget() {
+        // Calculate total income and expenses
+        _calculateTotal('inc');
+        _calculateTotal('exp');
+
+        // Calculate the budget
+        _data.budget = _data.total.inc - _data.total.exp;
+
+        // Calculate the percentage
+        if (_data.total.inc > 0) {
+            _data.percentage = Math.round((_data.total.exp / _data.total.inc) * 100);
+        } else {
+            _data.percentage = -1;
+        }
+    };
+
+    function calculatePercentages() {
+        _data.allItems.exp.forEach(function (cur) {
+            cur.calcPercentage(_data.total.inc);
+        });
+    };
+
+    function getPercentage() {
+        var allPerc = _data.allItems.exp.map(function (cur) {
+            return cur.getPercentage();
+        });
+        return allPerc;
+    };
+
+    function getBudget() {
+        return {
+            budget: _data.budget,
+            totalInc: _data.total.inc,
+            totalExp: _data.total.exp,
+            percentage: _data.percentage
+        };
+    };
+
+    return {
+        addItem: addItem,
+        deleteItem: deleteItem,
+        calculateBudget: calculateBudget,
+        calculatePercentages: calculatePercentages,
+        getPercentage: getPercentage,
+        getBudget: getBudget
     };
 
 })();
