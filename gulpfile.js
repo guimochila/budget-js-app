@@ -1,15 +1,21 @@
 // Gulpfile.js for the Budgety app
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
-    livereload = require('gulp-livereload'),
     cleanCSS = require('gulp-clean-css'),
     plumber = require('gulp-plumber'),
     uglify = require('gulp-uglify'),
     sourcemaps = require('gulp-sourcemaps'),
     eslint = require('gulp-eslint'),
+    browserSync = require('browser-sync').create(),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     browserify = require('browserify');
+
+// Browser-sync reload
+gulp.task('reload', function (done) {
+    browserSync.reload();
+    done();
+});
 
 // Style task
 gulp.task('styles', function () {
@@ -19,8 +25,8 @@ gulp.task('styles', function () {
             this.emit('end');
         }))
         .pipe(cleanCSS())
-        .pipe(gulp.dest('build/assets/css'))
-        .pipe(livereload());
+        .pipe(gulp.dest('build/assets/css'));
+
 });
 
 // HTML main file
@@ -30,8 +36,7 @@ gulp.task('html', function () {
             gutil.log('HTML task error: \n' + err);
             this.emit('end');
         }))
-        .pipe(gulp.dest('build/'))
-        .pipe(livereload());
+        .pipe(gulp.dest('build/'));
 });
 
 // Image file
@@ -41,15 +46,14 @@ gulp.task('images', function () {
             gutil.log('Images task error: \n' + err);
             this.emit('end');
         }))
-        .pipe(gulp.dest('build/img'))
-        .pipe(livereload());
+        .pipe(gulp.dest('build/img'));
 });
 
 // ESlint task
-gulp.task('lint', function() {  
-  return gulp.src('src/js/**/*.js')
-    .pipe(eslint())
-    .pipe(eslint.format());
+gulp.task('lint', function () {
+    return gulp.src('src/js/**/*.js')
+        .pipe(eslint())
+        .pipe(eslint.format());
 });
 
 // Build scripts using Browserify
@@ -67,17 +71,20 @@ gulp.task('build', function () {
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify())
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('build/assets/js'))
-        .pipe(livereload());
+        .pipe(gulp.dest('build/assets/js'));
 });
 
 // Watch task
 gulp.task('watch', ['default'], function () {
-    require('./server');
-    livereload.listen();
-    gulp.watch('src/css/*.css', ['styles']);
-    gulp.watch('src/*.html', ['html']);
-    gulp.watch('src/js/**/*.js', ['build']);
+    browserSync.init({
+        server: {
+            baseDir: './build'
+        }
+    });
+
+    gulp.watch('src/css/*.css', ['styles', 'reload']);
+    gulp.watch('src/*.html', ['html', 'reload']);
+    gulp.watch('src/js/**/*.js', ['build', 'reload']);
 });
 
 gulp.task('default', ['html', 'images', 'styles', 'lint', 'build'], function () { });
