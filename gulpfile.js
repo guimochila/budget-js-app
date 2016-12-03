@@ -6,10 +6,17 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     sourcemaps = require('gulp-sourcemaps'),
     eslint = require('gulp-eslint'),
+    jasmine = require('gulp-jasmine'),
     browserSync = require('browser-sync').create(),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     browserify = require('browserify');
+
+// Uni Testing task
+gulp.task('testing', function () {
+    return gulp.src('specs/BudgetControllerSpec.js')
+        .pipe(jasmine());
+});
 
 // Browser-sync reload
 gulp.task('reload', function (done) {
@@ -87,4 +94,4 @@ gulp.task('watch', ['default'], function () {
     gulp.watch('src/js/**/*.js', ['build', 'reload']);
 });
 
-gulp.task('default', ['html', 'images', 'styles', 'lint', 'build'], function () { });
+gulp.task('default', ['html', 'images', 'styles', 'lint', 'testing' ,'build'], function () { });
