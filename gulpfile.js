@@ -5,8 +5,8 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     uglify = require('gulp-uglify'),
     sourcemaps = require('gulp-sourcemaps'),
+    livereload = require('gulp-livereload'),
     eslint = require('gulp-eslint'),
-    jasmine = require('gulp-jasmine'),
     browserSync = require('browser-sync').create(),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
@@ -14,8 +14,9 @@ var gulp = require('gulp'),
 
 // Uni Testing task
 gulp.task('testing', function () {
-    return gulp.src('specs/BudgetControllerSpec.js')
-        .pipe(jasmine());
+    return gulp.src('src/js/components/**/*.js')
+        .pipe(gulp.dest('jasmine/src/'))
+        .pipe(livereload());
 });
 
 // Browser-sync reload
@@ -88,10 +89,13 @@ gulp.task('watch', ['default'], function () {
             baseDir: './build'
         }
     });
-
+    //Creating static-server with livereload for Jasmine
+    require('./server.js');
+    livereload.listen();
+    
     gulp.watch('src/css/*.css', ['styles', 'reload']);
     gulp.watch('src/*.html', ['html', 'reload']);
-    gulp.watch('src/js/**/*.js', ['build', 'reload']);
+    gulp.watch('src/js/**/*.js', ['testing', 'build', 'reload']);
 });
 
 gulp.task('default', ['html', 'images', 'styles', 'lint', 'testing' ,'build'], function () { });
