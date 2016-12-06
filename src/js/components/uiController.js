@@ -17,27 +17,27 @@ var UIController = (function () {
     };
 
     // Private functions
-    function nodeListForEach(list, callback) {
+    function _nodeListForEach(list, callback) {
         for (var i = 0; i < list.length; i++) {
             callback(list[i], i);
         }
     };
 
-    function formatNumber(num, type) {
-        var numSplit, int, dec;
+    function _formatNumber(num, type) {
+        var _numSplit, _int, _dec;
 
         num = Math.abs(num);
         num = num.toFixed(2);
-        numSplit = num.split('.');
-        int = numSplit[0];
+        _numSplit = num.split('.');
+        _int = _numSplit[0];
 
-        if (int.length > 3) {
-            int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
+        if (_int.length > 3) {
+            _int = _int.substr(0, _int.length - 3) + ',' + _int.substr(_int.length - 3, 3);
         }
 
-        dec = numSplit[1];
+        _dec = _numSplit[1];
 
-        return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
+        return (type === 'exp' ? '-' : '+') + ' ' + _int + '.' + _dec;
     }
 
     // Public functions
@@ -64,7 +64,7 @@ var UIController = (function () {
         // Replace the placeholder text with data
         newHtml = html.replace('%id%', obj.id);
         newHtml = newHtml.replace('%description%', obj.description);
-        newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
+        newHtml = newHtml.replace('%value%', _formatNumber(obj.value, type));
 
         // Insert the HTML into the DOM
         element.insertAdjacentHTML('beforeend', newHtml);
@@ -96,9 +96,9 @@ var UIController = (function () {
 
         obj.budget > 0 ? type = 'inc' : type = 'exp';
 
-        DOMStrings.$budgetLabel.textContent = formatNumber(obj.budget, type);
-        DOMStrings.$incomeLabel.textContent = formatNumber(obj.totalInc, 'inc');
-        DOMStrings.$expenseLabel.textContent = formatNumber(obj.totalExp, 'exp');
+        DOMStrings.$budgetLabel.textContent = _formatNumber(obj.budget, type);
+        DOMStrings.$incomeLabel.textContent = _formatNumber(obj.totalInc, 'inc');
+        DOMStrings.$expenseLabel.textContent = _formatNumber(obj.totalExp, 'exp');
 
         if (obj.percentage > 0) {
             DOMStrings.$percentageLabel.textContent = obj.percentage + '%';
@@ -111,13 +111,13 @@ var UIController = (function () {
 
         var fields = document.querySelectorAll('.item__percentage');
 
-        var nodeListForEach = function (list, callback) {
+        var _nodeListForEach = function (list, callback) {
             for (var i = 0; i < list.length; i++) {
                 callback(list[i], i);
             }
         };
 
-        nodeListForEach(fields, function (current, index) {
+        _nodeListForEach(fields, function (current, index) {
             if (percentages[index] > 0) {
                 current.textContent = percentages[index] + '%';
             } else {
@@ -140,7 +140,7 @@ var UIController = (function () {
     function changedType() {
         var fields = document.querySelectorAll('.add__type , .add__description, .add__value');
 
-        nodeListForEach(fields, function (item) {
+        _nodeListForEach(fields, function (item) {
             item.classList.toggle('red-focus');
         });
 
