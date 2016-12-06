@@ -5,40 +5,40 @@ var budgetController = (function () {
 
     // Expense Constructor
     var _Expense = function (id, description, value) {
-        this._id = id;
-        this._description = description;
-        this._value = value;
-        this._percentage = -1;
+        this.id = id;
+        this.description = description;
+        this.value = value;
+        this.percentage = -1;
     };
 
     //Calculate percentage method
     _Expense.prototype.calcPercentage = function (total_Income) {
         if (total_Income > 0) {
-            this._percentage = Math.round((this._value / total_Income) * 100);
+            this.percentage = Math.round((this.value / total_Income) * 100);
         } else {
-            this._percentage = -1;
+            this.percentage = -1;
         }
     };
 
     // Get percentage method
     _Expense.prototype.getPercentage = function () {
-        return this._percentage;
+        return this.percentage;
     };
 
     // _Income contructor
     var _Income = function (id, description, value) {
-        this._id = id;
-        this._description = description;
-        this._value = value;
+        this.id = id;
+        this.description = description;
+        this.value = value;
     };
 
     var _calculateTotal = function (type) {
-        var _sum = 0;
+        var sum = 0;
 
         _data.allItems[type].forEach(function (cur) {
-            _sum += cur.value;
+            sum += cur.value;
         });
-        _data.total[type] = _sum;
+        _data.total[type] = sum;
     };
 
     var _data = {
